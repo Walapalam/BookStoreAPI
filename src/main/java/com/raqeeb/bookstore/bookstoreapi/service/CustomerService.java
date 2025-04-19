@@ -2,14 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.raqeeb.bookstore.bookstoreapi.exception;
+package com.raqeeb.bookstore.bookstoreapi.service;
 
 /**
  *
  * @author Raqeeb
  */
-public class CustomerNotFoundException extends RuntimeException {
-    public CustomerNotFoundException(String message) {
-        super(message);
-    }
+public class CustomerService {
+    
 }

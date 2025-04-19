@@ -8,6 +8,8 @@ package com.raqeeb.bookstore.bookstoreapi.exception;
  *
  * @author Raqeeb
  */
-public class OutOfStockException {
-    
+public class OutOfStockException extends RuntimeException {
+    public OutOfStockException(String message) {
+        super(message);
+    }
 }

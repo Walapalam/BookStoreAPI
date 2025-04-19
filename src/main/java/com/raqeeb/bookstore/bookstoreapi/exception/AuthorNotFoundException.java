@@ -8,6 +8,8 @@ package com.raqeeb.bookstore.bookstoreapi.exception;
  *
  * @author Raqeeb
  */
-public class AuthorNotFoundException {
-    
+public class AuthorNotFoundException extends RuntimeException {
+    public AuthorNotFoundException(String message) {
+        super(message);
+    }
 }

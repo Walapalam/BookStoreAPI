@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -47,5 +48,12 @@ public class BookRepository {
             return true;
         }
         return false;
+    }
+    
+    public List<Book> getBooksByAuthor(String authorID) {
+        return bookStorage.values()
+                .stream()
+                .filter(book -> book.getAuthor().getAuthorID().equals(authorID))
+                .collect(Collectors.toList());
     }
 }

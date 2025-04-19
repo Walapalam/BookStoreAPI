@@ -8,6 +8,8 @@ package com.raqeeb.bookstore.bookstoreapi.exception;
  *
  * @author Raqeeb
  */
-public class InvalidInputException {
-    
+public class InvalidInputException extends RuntimeException {
+    public InvalidInputException(String message) {
+        super(message);
+    }
 }

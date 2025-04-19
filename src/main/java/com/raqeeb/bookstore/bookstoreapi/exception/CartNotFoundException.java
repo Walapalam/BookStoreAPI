@@ -8,6 +8,8 @@ package com.raqeeb.bookstore.bookstoreapi.exception;
  *
  * @author Raqeeb
  */
-public class CartNotFoundException {
-    
+public class CartNotFoundException extends RuntimeException {
+    public CartNotFoundException(String message) {
+        super(message);
+    }
 }
