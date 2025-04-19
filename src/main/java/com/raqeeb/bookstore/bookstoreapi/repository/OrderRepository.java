@@ -16,6 +16,7 @@ import java.util.Map;
  * @author Raqeeb
  */
 public class OrderRepository {
+
     private static final OrderRepository instance = new OrderRepository();
     private final Map<String, List<Order>> orderStorage = new HashMap<>();
 
@@ -25,11 +26,25 @@ public class OrderRepository {
         return instance;
     }
 
-    public void saveOrder(Order order) {
+    // Matches OrderService.addOrder
+    public void addOrder(Order order) {
         orderStorage.computeIfAbsent(order.getCustomerId(), k -> new ArrayList<>()).add(order);
     }
 
-    public List<Order> getOrdersByCustomer(String customerId) {
+    // Matches OrderService.getAllOrdersByCustomerId
+    public List<Order> getAllOrdersByCustomerId(String customerId) {
         return orderStorage.getOrDefault(customerId, Collections.emptyList());
+    }
+
+    // Matches OrderService.getOrder
+    public Order getOrder(String orderId) {
+        for (List<Order> orders : orderStorage.values()) {
+            for (Order order : orders) {
+                if (order.getOrderId().equals(orderId)) {
+                    return order;
+                }
+            }
+        }
+        return null;
     }
 }

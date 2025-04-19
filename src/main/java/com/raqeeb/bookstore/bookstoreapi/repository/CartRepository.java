@@ -13,6 +13,7 @@ import java.util.Map;
  * @author Raqeeb
  */
 public class CartRepository {
+
     private static final CartRepository instance = new CartRepository();
     private final Map<String, Cart> cartStorage = new HashMap<>();
 
@@ -22,15 +23,22 @@ public class CartRepository {
         return instance;
     }
 
-    public Cart getCart(String customerId) {
+    // Matches CartService.getCartByCustomerId
+    public Cart getCartByCustomerId(String customerId) {
         return cartStorage.get(customerId);
     }
 
-    public void saveCart(Cart cart) {
+    // Matches CartService.createCart
+    public void addCart(Cart cart) {
         cartStorage.put(cart.getCustomerId(), cart);
     }
 
-    public void removeCart(String customerId) {
+    // Matches CartService.updateCart
+    public void updateCart(Cart cart) {
+        cartStorage.put(cart.getCustomerId(), cart);
+    }
+
+    public void deleteCart(String customerId) {
         cartStorage.remove(customerId);
     }
 }
