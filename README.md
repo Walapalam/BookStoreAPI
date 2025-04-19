@@ -94,7 +94,7 @@ Data validation is implemented in the service layer, where input data is checked
 ---
 
 ## Project Structure
-src/ 
+```src/ 
 └── com/ 
   └── raqeeb/ 
     └── bookstore/ 
@@ -126,7 +126,7 @@ src/
         │ └── CartNotFoundException.java 
         └── resources/ 
         └── application.properties
-
+```
 
 ---
 
