@@ -8,6 +8,81 @@ package com.raqeeb.bookstore.bookstoreapi.resources;
  *
  * @author Raqeeb
  */
+@Path("/orders")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class OrderResource {
     
-}
+    private final OrderService orderService = OrderService.getInstance();
+    
+    @POST
+    public Response createOrder(Order order) {
+        try {
+            Order newOrder = orderService.createOrder(order);
+            return Response.status(Response.Status.CREATED)
+                         .entity(newOrder)
+                         .build();
+        } catch (InvalidInputException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                         .entity(e.getMessage())
+                         .build();
+        } catch (BookNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
+    
+    @GET
+    @Path("/{orderId}")
+    public Response getOrderById(@PathParam("orderId") String orderId) {
+        try {
+            Order order = orderService.getOrderById(orderId);
+            return Response.ok(order).build();
+        } catch (InvalidInputException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
+    
+    @GET
+    @Path("/customer/{customerId}")
+    public Response getOrdersByCustomer(@PathParam("customerId") String customerId) {
+        try {
+            List<Order> orders = orderService.getOrdersByCustomer(customerId);
+            return Response.ok(orders).build();
+        } catch (InvalidInputException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
+    
+    @PUT
+    @Path("/{orderId}/status")
+    public Response updateOrderStatus(
+            @PathParam("orderId") String orderId,
+            @QueryParam("status") String status) {
+        try {
+            Order updatedOrder = orderService.updateOrderStatus(orderId, status);
+            return Response.ok(updatedOrder).build();
+        } catch (InvalidInputException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
+    
+    @DELETE
+    @Path("/{orderId}")
+    public Response cancelOrder(@PathParam("orderId") String orderId) {
+        try {
+            orderService.cancelOrder(orderId);
+            return Response.noContent().build();
+        } catch (InvalidInputException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }

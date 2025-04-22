@@ -4,10 +4,90 @@
  */
 package com.raqeeb.bookstore.bookstoreapi.resources;
 
+import com.raqeeb.bookstore.bookstoreapi.exception.CustomerNotFoundException;
+import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
+import com.raqeeb.bookstore.bookstoreapi.model.Customer;
+import com.raqeeb.bookstore.bookstoreapi.service.CustomerService;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
+
 /**
- *
+ * RESTful API resource for managing customers.
+ * 
  * @author Raqeeb
  */
+@Path("/customers")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CustomerResource {
     
+    private final CustomerService customerService = CustomerService.getInstance();
+    
+    @GET
+    public Response getAllCustomers() {
+        List<Customer> customers = customerService.getAllCustomers();
+        return Response.ok(customers).build();
+    }
+    
+    @GET
+    @Path("/{customerId}")
+    public Response getCustomerById(@PathParam("customerId") String customerId) {
+        try {
+            Customer customer = customerService.getCustomerById(customerId);
+            return Response.ok(customer).build();
+        } catch (CustomerNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
+    
+    @POST
+    public Response createCustomer(Customer customer) {
+        try {
+            Customer newCustomer = customerService.createCustomer(customer);
+            return Response.status(Response.Status.CREATED)
+                         .entity(newCustomer)
+                         .build();
+        } catch (InvalidInputException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
+    
+    @PUT
+    @Path("/{customerId}")
+    public Response updateCustomer(
+            @PathParam("customerId") String customerId, 
+            Customer updatedCustomer) {
+        try {
+            Customer customer = customerService.updateCustomer(customerId, updatedCustomer);
+            return Response.ok(customer).build();
+        } catch (CustomerNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                         .entity(e.getMessage())
+                         .build();
+        } catch (InvalidInputException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
+    
+    @DELETE
+    @Path("/{customerId}")
+    public Response deleteCustomer(@PathParam("customerId") String customerId) {
+        try {
+            customerService.deleteCustomer(customerId);
+            return Response.noContent().build();
+        } catch (CustomerNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                         .entity(e.getMessage())
+                         .build();
+        }
+    }
 }
