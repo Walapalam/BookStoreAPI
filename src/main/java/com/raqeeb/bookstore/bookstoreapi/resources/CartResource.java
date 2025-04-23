@@ -8,8 +8,7 @@ package com.raqeeb.bookstore.bookstoreapi.resources;
  *
  * @author Raqeeb
  */
-public class CartResource {
-    @Path("/carts")
+@Path("/carts")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CartResource {
@@ -78,4 +77,4 @@ public class CartResource {
             }
         }
     }
-}
+
