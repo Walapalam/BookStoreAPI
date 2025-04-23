@@ -4,14 +4,16 @@
  */
 package com.raqeeb.bookstore.bookstoreapi.resources;
 
-import com.raqeeb.bookstore.bookstoreapi.services.OrderService;
-import com.raqeeb.bookstore.bookstoreapi.models.Order;
-import com.raqeeb.bookstore.bookstoreapi.exceptions.InvalidInputException;
-import com.raqeeb.bookstore.bookstoreapi.exceptions.BookNotFoundException;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import com.raqeeb.bookstore.bookstoreapi.service.OrderService;
+import com.raqeeb.bookstore.bookstoreapi.model.Order;
+import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
+import com.raqeeb.bookstore.bookstoreapi.exception.BookNotFoundException;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
+
 /**
  *
  * @author Raqeeb
@@ -26,7 +28,7 @@ public class OrderResource {
     @POST
     public Response createOrder(Order order) {
         try {
-            Order newOrder = orderService.createOrder(order);
+            Order newOrder = orderService.createOrder(order.getOrderId(), order.getCustomerId());
             return Response.status(Response.Status.CREATED)
                          .entity(newOrder)
                          .build();
@@ -40,17 +42,19 @@ public class OrderResource {
                          .build();
         }
     }
-    
+
     @GET
     @Path("/{orderId}")
-    public Response getOrderById(@PathParam("orderId") String orderId) {
+    public Response getOrderById(
+            @PathParam("orderId") String orderId,
+            @QueryParam("customerId") String customerId) {
         try {
-            Order order = orderService.getOrderById(orderId);
+            Order order = orderService.getOrderById(customerId, orderId);
             return Response.ok(order).build();
         } catch (InvalidInputException e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
+                    .entity(e.getMessage())
+                    .build();
         }
     }
     

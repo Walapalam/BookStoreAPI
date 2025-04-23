@@ -60,4 +60,13 @@ public class CustomerService {
         }
         return true;
     }
+
+    public boolean customerExists(String customerId) {
+        try {
+            getCustomerById(customerId);
+            return true;
+        } catch (CustomerNotFoundException e) {
+            return false;
+        }
+    }
 }

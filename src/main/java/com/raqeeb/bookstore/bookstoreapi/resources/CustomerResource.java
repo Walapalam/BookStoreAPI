@@ -36,8 +36,8 @@ public class CustomerResource {
     @Path("/{customerId}")
     public Response getCustomerById(@PathParam("customerId") String customerId) {
         try {
-            Customer customer = customerService.getCustomerById(customerId);
-            return Response.ok(customer).build();
+            Customer response = customerService.getCustomerById(customerId);
+            return Response.ok(response).build();
         } catch (CustomerNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND)
                          .entity(e.getMessage())
@@ -46,9 +46,9 @@ public class CustomerResource {
     }
     
     @POST
-    public Response createCustomer(Customer customer) {
+    public Response createCustomer(Customer response) {
         try {
-            Customer newCustomer = customerService.createCustomer(customer);
+            Customer newCustomer = customerService.createCustomer(response);
             return Response.status(Response.Status.CREATED)
                          .entity(newCustomer)
                          .build();
@@ -65,8 +65,8 @@ public class CustomerResource {
             @PathParam("customerId") String customerId, 
             Customer updatedCustomer) {
         try {
-            Customer customer = customerService.updateCustomer(customerId, updatedCustomer);
-            return Response.ok(customer).build();
+            boolean response = customerService.updateCustomer(customerId, updatedCustomer);
+            return Response.ok(response).build();
         } catch (CustomerNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND)
                          .entity(e.getMessage())
