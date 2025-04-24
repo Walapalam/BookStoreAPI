@@ -9,6 +9,8 @@ import com.raqeeb.bookstore.bookstoreapi.resources.BookResource;
 import com.raqeeb.bookstore.bookstoreapi.resources.CartResource;
 import com.raqeeb.bookstore.bookstoreapi.resources.CustomerResource;
 import com.raqeeb.bookstore.bookstoreapi.resources.OrderResource;
+import com.raqeeb.bookstore.bookstoreapi.service.DataInitializationService;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
@@ -20,6 +22,10 @@ import javax.ws.rs.core.MediaType;
 
 @ApplicationPath("rest")
 public class BookStoreAPI extends Application {
+
+    public BookStoreAPI(){
+        DataInitializationService.initializeData();
+    }
 
     @Override
     public Set<Class<?>> getClasses() {

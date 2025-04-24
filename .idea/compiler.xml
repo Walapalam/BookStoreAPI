@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="BookStoreAPI" options="-endorseddirs C:\Users\raqee\OneDrive\Desktop\SD2-VIVA\BookStoreAPI\target/endorsed" />
+      <module name="BookStoreAPI" options="" />
     </option>
   </component>
 </project>
