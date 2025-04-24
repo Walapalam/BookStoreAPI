@@ -26,7 +26,9 @@ public class Book {
         this.price = price;
         this.stockQuantity = stockQuantity;
     }
-
+    
+    public Book(){}
+    
     public Author getAuthor() {
         return author;
     }

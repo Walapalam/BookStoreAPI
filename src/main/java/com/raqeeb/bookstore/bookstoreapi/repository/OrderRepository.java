@@ -20,7 +20,23 @@ public class OrderRepository {
     private static final OrderRepository instance = new OrderRepository();
     private final Map<String, List<Order>> orderStorage = new HashMap<>();
 
-    private OrderRepository() {}
+    private OrderRepository() {
+        initialize();
+    }
+
+    private void initialize() {
+        Map<String, Integer> items1 = new HashMap<>();
+        items1.put("ISBN001", 1);
+        items1.put("ISBN002", 2);
+        Order order1 = new Order("ORD001", "CUST001", items1);
+
+        Map<String, Integer> items2 = new HashMap<>();
+        items2.put("ISBN003", 1);
+        Order order2 = new Order("ORD002", "CUST002", items2);
+
+        addOrder(order1);
+        addOrder(order2);
+    }
 
     public static OrderRepository getInstance() {
         return instance;

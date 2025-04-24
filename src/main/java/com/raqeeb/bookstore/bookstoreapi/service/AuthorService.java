@@ -16,14 +16,14 @@ import java.util.List;
  * @author Raqeeb
  */
 public class AuthorService {
-
     private static final AuthorService instance = new AuthorService();
     private final AuthorRepository authorRepository;
 
     private AuthorService() {
         this.authorRepository = AuthorRepository.getInstance();
+        
     }
-
+        
     public static AuthorService getInstance() {
         return instance;
     }

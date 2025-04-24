@@ -22,6 +22,8 @@ public class Customer {
         this.email = email;
         this.password = password;
     }
+    
+    public Customer(){}
 
     public String getCustomerID() {
         return customerID;

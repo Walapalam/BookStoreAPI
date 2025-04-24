@@ -14,7 +14,9 @@ public class Author {
     private String authorID;
     private String name;
     private String biography;
-
+    
+    public Author(){}
+    
     public Author(String authorID, String name, String biography) {
         this.authorID = authorID;
         this.name = name;

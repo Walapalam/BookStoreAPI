@@ -28,18 +28,18 @@ public class AuthorRepository {
     public static AuthorRepository getInstance() {
         return instance;
     }
-    
+
     private void initialize() {
-        Author author1 = new Author(UUID.randomUUID().toString(), "Alice",
-                "Bio");
-        Author author2 = new Author(UUID.randomUUID().toString(), "Alice",
-                "Bio");
-        Author author3 = new Author(UUID.randomUUID().toString(), "Alice",
-                "Bio");
-        
-        this.getInstance().authorStorage.put(author1.getAuthorID().toString(), author1);
-        this.getInstance().authorStorage.put(author2.getAuthorID().toString(), author2);
-        this.getInstance().authorStorage.put(author3.getAuthorID().toString(), author3);   
+        Author author1 = new Author("AUTH001", "George Orwell",
+                "English novelist known for '1984' and 'Animal Farm'");
+        Author author2 = new Author("AUTH002", "J.R.R. Tolkien",
+                "English writer and philologist, author of 'The Lord of the Rings'");
+        Author author3 = new Author("AUTH003", "Agatha Christie",
+                "British crime novelist, known for detective fiction");
+
+        authorStorage.put(author1.getAuthorID(), author1);
+        authorStorage.put(author2.getAuthorID(), author2);
+        authorStorage.put(author3.getAuthorID(), author3);
     }
 
     public void addAuthor(Author author) {

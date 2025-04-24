@@ -7,6 +7,7 @@ com\raqeeb\bookstore\bookstoreapi\repository\AuthorRepository.class
 com\raqeeb\bookstore\bookstoreapi\resources\CartResource.class
 com\raqeeb\bookstore\bookstoreapi\model\Order.class
 com\raqeeb\bookstore\bookstoreapi\model\Customer.class
+com\raqeeb\bookstore\bookstoreapi\service\DataInitializationService.class
 com\raqeeb\bookstore\bookstoreapi\model\Author.class
 com\raqeeb\bookstore\bookstoreapi\service\BookService.class
 com\raqeeb\bookstore\bookstoreapi\model\Book.class

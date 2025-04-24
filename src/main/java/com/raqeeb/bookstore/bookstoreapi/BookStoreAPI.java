@@ -22,11 +22,7 @@ import javax.ws.rs.core.MediaType;
 
 @ApplicationPath("rest")
 public class BookStoreAPI extends Application {
-
-    public BookStoreAPI(){
-        DataInitializationService.initializeData();
-    }
-
+    
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
