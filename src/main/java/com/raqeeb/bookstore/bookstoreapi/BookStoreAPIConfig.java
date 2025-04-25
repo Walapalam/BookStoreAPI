@@ -8,6 +8,7 @@ package com.raqeeb.bookstore.bookstoreapi;
  *
  * @author Raqeeb
  */
+import com.raqeeb.bookstore.bookstoreapi.exception.CommonExceptionMapper;
 import com.raqeeb.bookstore.bookstoreapi.resources.AuthorResource;
 import com.raqeeb.bookstore.bookstoreapi.resources.BookResource;
 import com.raqeeb.bookstore.bookstoreapi.resources.CartResource;
@@ -22,5 +23,6 @@ public class BookStoreAPIConfig extends ResourceConfig{
         register(CartResource.class);
         register(CustomerResource.class);
         register(OrderResource.class);
+        register(CommonExceptionMapper.class);
     }
 }

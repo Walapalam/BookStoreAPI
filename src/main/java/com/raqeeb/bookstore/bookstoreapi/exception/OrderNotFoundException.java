@@ -8,7 +8,7 @@ package com.raqeeb.bookstore.bookstoreapi.exception;
  *
  * @author Raqeeb
  */
-public class OrderNotFoundException extends Exception {
+public class OrderNotFoundException extends RuntimeException {
     public OrderNotFoundException(String message) {
         super(message);
     }

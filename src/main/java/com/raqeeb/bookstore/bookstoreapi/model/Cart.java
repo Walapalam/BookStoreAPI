@@ -18,7 +18,8 @@ public class Cart {
     public Cart(String customerId) {
         this.customerId = customerId;
     }
-    
+
+
     
     public String getCustomerId() {
         return customerId;
@@ -44,5 +45,9 @@ public class Cart {
 
     public void clearCart() {
         items.clear();
+    }
+
+    public void setCustomerId(String customerId) {
+
     }
 }

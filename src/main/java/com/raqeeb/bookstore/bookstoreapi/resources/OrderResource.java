@@ -9,6 +9,7 @@ import com.raqeeb.bookstore.bookstoreapi.model.Order;
 import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
 import com.raqeeb.bookstore.bookstoreapi.exception.OrderNotFoundException;
 import com.raqeeb.bookstore.bookstoreapi.exception.BookNotFoundException;
+import com.raqeeb.bookstore.bookstoreapi.utils.SuccessMessage;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,77 +20,37 @@ import java.util.List;
  *
  * @author Raqeeb
  */
-@Path("/orders")
+@Path("/customers/{customerId}/orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class OrderResource {
-    
     private final OrderService orderService = OrderService.getInstance();
-    
+
     @POST
-    public Response createOrder(Order order) {
-        try {
-            Order newOrder = orderService.createOrder(order.getOrderId(), order.getCustomerId());
-            return Response.status(Response.Status.CREATED)
-                         .entity(newOrder)
-                         .build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
-        } catch (BookNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        }
+    public Response createOrder(@PathParam("customerId") String customerId, Order order) {
+        order.setCustomerId(customerId);
+        Order created = orderService.createOrder(order.getOrderId(), customerId);
+        return Response.status(Response.Status.CREATED)
+                .entity(created)
+                .build();
+    }
+
+    @GET
+    public Response getOrders(@PathParam("customerId") String customerId) {
+        List<Order> orders = orderService.getOrdersByCustomer(customerId);
+        return Response.ok()
+                .entity(orders)
+                .build();
     }
 
     @GET
     @Path("/{orderId}")
-    public Response getOrderById(
-            @PathParam("orderId") String orderId,
-            @QueryParam("customerId") String customerId) {
-        try {
-            Order order = orderService.getOrderById(customerId, orderId);
-            return Response.ok(order).build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-        }
-    }
-    
-    @GET
-    @Path("/customer/{customerId}")
-    public Response getOrdersByCustomer(@PathParam("customerId") String customerId) {
-        try {
-            List<Order> orders = orderService.getOrdersByCustomer(customerId);
-            return Response.ok(orders).build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
-        }
-    }
-    
-    @DELETE
-    @Path("/{orderId}")
-    public Response cancelOrder(@PathParam("orderId") String orderId) {
-        try {
-            orderService.cancelOrder(orderId);
-            return Response.noContent().build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
-        } catch (BookNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        } catch (OrderNotFoundException e){
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        }
+    public Response getOrder(
+            @PathParam("customerId") String customerId,
+            @PathParam("orderId") String orderId) {
+        Order order = orderService.getOrderById(customerId, orderId);
+        return Response.ok()
+                .entity(order)
+                .build();
     }
 }

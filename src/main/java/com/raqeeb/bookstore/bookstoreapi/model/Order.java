@@ -39,4 +39,7 @@ public class Order {
     public LocalDateTime getOrderDate() {
         return orderDate;
     }
+
+    public void setCustomerId(String customerId) {
+    }
 }

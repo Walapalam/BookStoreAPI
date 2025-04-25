@@ -9,6 +9,8 @@ import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
 import com.raqeeb.bookstore.bookstoreapi.model.Author;
 import com.raqeeb.bookstore.bookstoreapi.model.Book;
 import com.raqeeb.bookstore.bookstoreapi.service.AuthorService;
+import com.raqeeb.bookstore.bookstoreapi.utils.SuccessMessage;
+
 import javax.ws.rs.Path;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -24,7 +26,6 @@ import javax.ws.rs.core.Response;
  *
  * @author Raqeeb
  */
-
 @Path("/authors")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -34,62 +35,52 @@ public class AuthorResource {
     @GET
     public Response getAllAuthors() {
         List<Author> authors = authorService.getAllAuthors();
-        return Response.ok(authors).build();
+        return Response.ok()
+                .entity(authors)
+                .build();
     }
 
     @GET
     @Path("/{authorId}")
     public Response getAuthorById(@PathParam("authorId") String authorId) {
-        try {
-            Author author = authorService.getAuthorById(authorId);
-            return Response.ok(author).build();
-        } catch (AuthorNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-        }
+        Author author = authorService.getAuthorById(authorId);
+        return Response.ok()
+                .entity(author)
+                .build();
     }
 
     @POST
     public Response addAuthor(Author author) {
-        try {
-            Author addedAuthor = authorService.createAuthor(author);
-            return Response.status(Response.Status.CREATED).entity(addedAuthor).build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }
+        Author created = authorService.createAuthor(author);
+        return Response.status(Response.Status.CREATED)
+                .entity(new SuccessMessage("Author created successfully"))
+                .build();
     }
 
     @PUT
     @Path("/{authorId}")
     public Response updateAuthor(@PathParam("authorId") String authorId, Author updatedAuthor) {
-        try {
-            boolean response = authorService.updateAuthor(authorId, updatedAuthor);
-            return Response.ok(response).build();
-        } catch (AuthorNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }
+        boolean updated = authorService.updateAuthor(authorId, updatedAuthor);
+        return Response.ok()
+                .entity(new SuccessMessage("Author updated successfully"))
+                .build();
     }
 
     @DELETE
     @Path("/{authorId}")
     public Response deleteAuthor(@PathParam("authorId") String authorId) {
-        try {
-            authorService.deleteAuthor(authorId);
-            return Response.noContent().build();
-        } catch (AuthorNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-        }
+        authorService.deleteAuthor(authorId);
+        return Response.ok()
+                .entity(new SuccessMessage("Author deleted successfully"))
+                .build();
     }
 
     @GET
     @Path("/{authorId}/books")
     public Response getBooksByAuthor(@PathParam("authorId") String authorId) {
-        try {
-            List<Book> books = authorService.getBooksByAuthor(authorId);
-            return Response.ok(books).build();
-        } catch (AuthorNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-        }
+        List<Book> books = authorService.getBooksByAuthor(authorId);
+        return Response.ok()
+                .entity(books)
+                .build();
     }
 }

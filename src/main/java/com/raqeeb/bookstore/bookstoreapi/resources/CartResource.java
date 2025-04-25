@@ -9,6 +9,7 @@ import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
 import com.raqeeb.bookstore.bookstoreapi.exception.OutOfStockException;
 import com.raqeeb.bookstore.bookstoreapi.model.Cart;
 import com.raqeeb.bookstore.bookstoreapi.service.CartService;
+import com.raqeeb.bookstore.bookstoreapi.utils.SuccessMessage;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,73 +18,50 @@ import javax.ws.rs.core.Response;
  *
  * @author Raqeeb
  */
-@Path("/carts")
+@Path("/customers/{customerId}/cart")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CartResource {
-    
     private final CartService cartService = CartService.getInstance();
-    
-    @POST
-    public Response createCart(Cart cart) {
-        try {
-            Cart newCart = cartService.createCart(cart);
-            return Response.status(Response.Status.CREATED)
-                         .entity(newCart)
-                         .build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
-        }
-    }
-    
+
     @GET
-    @Path("/{customerId}")
     public Response getCart(@PathParam("customerId") String customerId) {
-        try {
-            Cart cart = cartService.getCartByCustomerId(customerId);
-            return Response.ok(cart).build();
-        } catch (CartNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        }
-    }
-    
-    @POST
-    @Path("/{customerId}/items/{isbn}")
-    public Response addItemToCart(
-            @PathParam("customerId") String customerId,
-            @PathParam("isbn") String isbn,
-            @QueryParam("quantity") int quantity) {
-        try {
-            boolean success = cartService.addItemToCart(customerId, isbn, quantity);
-            return Response.ok(success).build();
-        } catch (CartNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        } catch (OutOfStockException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
-        }
-    }
-    
-    @DELETE
-    @Path("/{customerId}/items/{isbn}")
-    public Response removeItemFromCart(
-            @PathParam("customerId") String customerId,
-            @PathParam("isbn") String isbn) {
-        try {
-            boolean success = cartService.removeItemFromCart(customerId, isbn);
-            return Response.ok(success).build();
-        } catch (CartNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-            }
-        }
+        Cart cart = cartService.getCartByCustomerId(customerId);
+        return Response.ok()
+                .entity(cart)
+                .build();
     }
 
+    @POST
+    @Path("/items")
+    public Response addItemToCart(@PathParam("customerId") String customerId, Cart cart) {
+        cart.setCustomerId(customerId);
+        Cart created = cartService.createCart(cart);
+        return Response.status(Response.Status.CREATED)
+                .entity(created)
+                .build();
+    }
+
+    @PUT
+    @Path("/items/{bookId}")
+    public Response updateCartItem(
+            @PathParam("customerId") String customerId,
+            @PathParam("bookId") String bookId,
+            @QueryParam("quantity") int quantity) {
+        boolean updated = cartService.addItemToCart(customerId, bookId, quantity);
+        return Response.ok()
+                .entity(new SuccessMessage("Cart item updated successfully"))
+                .build();
+    }
+
+    @DELETE
+    @Path("/items/{bookId}")
+    public Response removeItemFromCart(
+            @PathParam("customerId") String customerId,
+            @PathParam("bookId") String bookId) {
+        boolean removed = cartService.removeItemFromCart(customerId, bookId);
+        return Response.ok()
+                .entity(new SuccessMessage("Item removed from cart successfully"))
+                .build();
+    }
+}

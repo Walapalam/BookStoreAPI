@@ -8,6 +8,7 @@ import com.raqeeb.bookstore.bookstoreapi.exception.CustomerNotFoundException;
 import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
 import com.raqeeb.bookstore.bookstoreapi.model.Customer;
 import com.raqeeb.bookstore.bookstoreapi.service.CustomerService;
+import com.raqeeb.bookstore.bookstoreapi.utils.SuccessMessage;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,71 +24,48 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CustomerResource {
-    
     private final CustomerService customerService = CustomerService.getInstance();
-    
+
     @GET
     public Response getAllCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
-        return Response.ok(customers).build();
+        return Response.ok()
+                .entity(customers)
+                .build();
     }
-    
+
     @GET
     @Path("/{customerId}")
     public Response getCustomerById(@PathParam("customerId") String customerId) {
-        try {
-            Customer response = customerService.getCustomerById(customerId);
-            return Response.ok(response).build();
-        } catch (CustomerNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        }
+        Customer customer = customerService.getCustomerById(customerId);
+        return Response.ok()
+                .entity(customer)
+                .build();
     }
-    
+
     @POST
-    public Response createCustomer(Customer response) {
-        try {
-            Customer newCustomer = customerService.createCustomer(response);
-            return Response.status(Response.Status.CREATED)
-                         .entity(newCustomer)
-                         .build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
-        }
+    public Response createCustomer(Customer customer) {
+        Customer created = customerService.createCustomer(customer);
+        return Response.status(Response.Status.CREATED)
+                .entity(created)
+                .build();
     }
-    
+
     @PUT
     @Path("/{customerId}")
-    public Response updateCustomer(
-            @PathParam("customerId") String customerId, 
-            Customer updatedCustomer) {
-        try {
-            boolean response = customerService.updateCustomer(customerId, updatedCustomer);
-            return Response.ok(response).build();
-        } catch (CustomerNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        } catch (InvalidInputException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                         .entity(e.getMessage())
-                         .build();
-        }
+    public Response updateCustomer(@PathParam("customerId") String customerId, Customer updatedCustomer) {
+        boolean updated = customerService.updateCustomer(customerId, updatedCustomer);
+        return Response.ok()
+                .entity(new SuccessMessage("Customer updated successfully"))
+                .build();
     }
-    
+
     @DELETE
     @Path("/{customerId}")
     public Response deleteCustomer(@PathParam("customerId") String customerId) {
-        try {
-            customerService.deleteCustomer(customerId);
-            return Response.noContent().build();
-        } catch (CustomerNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                         .entity(e.getMessage())
-                         .build();
-        }
+        customerService.deleteCustomer(customerId);
+        return Response.ok()
+                .entity(new SuccessMessage("Customer deleted successfully"))
+                .build();
     }
 }
