@@ -28,12 +28,11 @@ public class BookService {
         return instance;
     }
 
-    public Book createBook(Book book) throws InvalidInputException {
+    public void createBook(Book book) throws InvalidInputException {
         if (book.getISBN() == null || book.getTitle() == null) {
             throw new InvalidInputException("Book title or ISBN cannot be null");
         }
         bookRepository.addBook(book);
-        return book;
     }
 
     public List<Book> getAllBooks() {

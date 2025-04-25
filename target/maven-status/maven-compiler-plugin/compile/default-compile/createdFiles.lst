@@ -23,6 +23,7 @@ com\raqeeb\bookstore\bookstoreapi\repository\CustomerRepository.class
 com\raqeeb\bookstore\bookstoreapi\exception\InvalidInputException.class
 com\raqeeb\bookstore\bookstoreapi\BookStoreAPIConfig.class
 com\raqeeb\bookstore\bookstoreapi\BookStoreAPI.class
+com\raqeeb\bookstore\bookstoreapi\DTO\BookDTO.class
 com\raqeeb\bookstore\bookstoreapi\exception\BookNotFoundException.class
 com\raqeeb\bookstore\bookstoreapi\service\CustomerService.class
 com\raqeeb\bookstore\bookstoreapi\repository\OrderRepository.class

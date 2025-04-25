@@ -4,10 +4,12 @@
  */
 package com.raqeeb.bookstore.bookstoreapi.resources;
 
+import com.raqeeb.bookstore.bookstoreapi.DTO.BookDTO;
 import com.raqeeb.bookstore.bookstoreapi.exception.BookNotFoundException;
 import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
 import com.raqeeb.bookstore.bookstoreapi.model.Book;
 import com.raqeeb.bookstore.bookstoreapi.service.BookService;
+import java.time.Year;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -51,11 +53,19 @@ public class BookResource {
     }
     
     @POST
-    public Response addBook(Book book) {
+    public Response addBook(BookDTO bookDTO) {
         try {
-            Book addedBook = bookService.createBook(book);
+            Book book = new Book(
+                    bookDTO.getTitle(),
+                    bookDTO.getAuthor(),
+                    bookDTO.getISBN(),
+                    Year.of(bookDTO.getPublicationYear()), // Convert int to Year
+                    bookDTO.getPrice(),
+                    bookDTO.getStockQuantity()
+            );
+            bookService.createBook(book);
             // 201 Created when a new book is successfully added
-            return Response.status(Response.Status.CREATED).entity(addedBook).build();
+            return Response.status(Response.Status.CREATED).entity(book).build();
         } catch (InvalidInputException e) {
             // 400 Bad Request if the input is invalid (e.g., missing fields, wrong data types)
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
