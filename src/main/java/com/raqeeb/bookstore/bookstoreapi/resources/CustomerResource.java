@@ -4,8 +4,6 @@
  */
 package com.raqeeb.bookstore.bookstoreapi.resources;
 
-import com.raqeeb.bookstore.bookstoreapi.exception.CustomerNotFoundException;
-import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
 import com.raqeeb.bookstore.bookstoreapi.model.Customer;
 import com.raqeeb.bookstore.bookstoreapi.service.CustomerService;
 import com.raqeeb.bookstore.bookstoreapi.utils.SuccessMessage;

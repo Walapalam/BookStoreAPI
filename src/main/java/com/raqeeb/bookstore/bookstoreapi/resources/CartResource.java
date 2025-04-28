@@ -4,9 +4,6 @@
  */
 package com.raqeeb.bookstore.bookstoreapi.resources;
 
-import com.raqeeb.bookstore.bookstoreapi.exception.CartNotFoundException;
-import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
-import com.raqeeb.bookstore.bookstoreapi.exception.OutOfStockException;
 import com.raqeeb.bookstore.bookstoreapi.model.Cart;
 import com.raqeeb.bookstore.bookstoreapi.service.CartService;
 import com.raqeeb.bookstore.bookstoreapi.utils.SuccessMessage;

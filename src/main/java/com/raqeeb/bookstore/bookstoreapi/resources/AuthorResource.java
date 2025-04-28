@@ -4,8 +4,6 @@
  */
 package com.raqeeb.bookstore.bookstoreapi.resources;
 
-import com.raqeeb.bookstore.bookstoreapi.exception.AuthorNotFoundException;
-import com.raqeeb.bookstore.bookstoreapi.exception.InvalidInputException;
 import com.raqeeb.bookstore.bookstoreapi.model.Author;
 import com.raqeeb.bookstore.bookstoreapi.model.Book;
 import com.raqeeb.bookstore.bookstoreapi.service.AuthorService;
