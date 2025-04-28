@@ -12,16 +12,18 @@ import java.util.Map;
  * @author Raqeeb
  */
 public class Order {
-    private final String orderId;
-    private final String customerId;
-    private final Map<String, Integer> items; // ISBN -> quantity
-    private final LocalDateTime orderDate;
+    private String orderId;
+    private String customerId;
+    private Map<String, Integer> items; // ISBN -> quantity
+    private String orderDate;
+
+    public Order(){}
 
     public Order(String orderId, String customerId, Map<String, Integer> items) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.items = Map.copyOf(items); // Immutable copy
-        this.orderDate = LocalDateTime.now();
+        this.orderDate = LocalDateTime.now().toString();
     }
 
     public String getOrderId() {
@@ -36,10 +38,23 @@ public class Order {
         return items;
     }
 
-    public LocalDateTime getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
     public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setItems(Map<String, Integer> items) {
+        this.items = items;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }

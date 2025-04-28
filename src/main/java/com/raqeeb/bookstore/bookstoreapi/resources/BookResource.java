@@ -54,7 +54,15 @@ public class BookResource {
 
     @POST
     public Response addBook(BookDTO bookDTO) {
-        Book book = new Book(/* ... */);
+        Book book = new Book(
+                bookDTO.getTitle(),
+                bookDTO.getAuthor(),
+                bookDTO.getISBN(),
+                Year.of(bookDTO.getPublicationYear()),
+                bookDTO.getPrice(),
+                bookDTO.getStockQuantity()
+        );
+
         bookService.createBook(book);
         return Response.status(Response.Status.CREATED)
                 .entity(new SuccessMessage("Book created successfully"))
@@ -63,11 +71,19 @@ public class BookResource {
 
     @PUT
     @Path("/{isbn}")
-    public Response updateBook(BookDTO bookDTO) {
-        Book book = new Book(/* ... */);
-        boolean updated = bookService.updateBook(book.getISBN(), book);
+    public Response updateBook(@PathParam("isbn") String isbn, BookDTO bookDTO) {
+        Book book = new Book(
+                bookDTO.getTitle(),
+                bookDTO.getAuthor(),
+                bookDTO.getISBN(),
+                Year.of(bookDTO.getPublicationYear()),
+                bookDTO.getPrice(),
+                bookDTO.getStockQuantity()
+        );
+        boolean updated = bookService.updateBook(isbn, book);
         return Response.ok()
                 .entity(new SuccessMessage("Book updated successfully"))
+                .entity(updated)
                 .build();
     }
 

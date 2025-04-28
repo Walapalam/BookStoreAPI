@@ -12,14 +12,14 @@ import java.util.Map;
  * @author Raqeeb
  */
 public class Cart {
-    private final String customerId;
+    private String customerId;
     private final Map<String, Integer> items = new HashMap<>(); // Key: ISBN, Value: Quantity
 
     public Cart(String customerId) {
         this.customerId = customerId;
     }
 
-
+    public Cart(){}
     
     public String getCustomerId() {
         return customerId;
@@ -48,6 +48,6 @@ public class Cart {
     }
 
     public void setCustomerId(String customerId) {
-
+        this.customerId = customerId;
     }
 }
