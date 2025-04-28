@@ -14,9 +14,12 @@ The project is designed to simulate a simple online bookstore. It consists of se
 
 ### Technologies Used
 - **Java**: Core programming language for backend implementation.
+- **Maven**: Build automation tool for managing dependencies and building the project.
 - **Singleton Design Pattern**: Used for ensuring a single instance of service classes, which manage business logic and interact with the repository.
 - **Custom Exceptions**: Used to handle various error cases (e.g., `BookNotFoundException`, `OutOfStockException`, etc.).
 - **Repository Pattern**: Used to manage and store data related to books, authors, customers, carts, and orders.
+- **Jersey (JAX-RS)**: Framework for building RESTful web services.
+- **In-Memory Data Storage**: Data is stored in memory using `HashMap` for simplicity.
 
 ---
 
@@ -60,6 +63,7 @@ We defined several **custom exceptions** to handle different error scenarios, pr
 - **InvalidInputException**: Thrown when invalid data is provided for operations.
 - **OutOfStockException**: Thrown when there are insufficient stock levels to fulfill an order.
 - **CartNotFoundException**: Thrown when a customer's cart is not found.
+- **OrderNotFoundException**: Thrown when an order is not found.
 
 #### Why Custom Exceptions?
 - Custom exceptions provide more meaningful and specific error messages, improving error handling and debugging.
@@ -93,39 +97,66 @@ Data validation is implemented in the service layer, where input data is checked
 
 ---
 
+## New Features Added
+
+### 1. **Cart Management**
+- Customers can now add, update, and remove items from their shopping cart.
+- The cart is validated for stock availability before adding items.
+
+### 2. **Order Management**
+- Orders can now be created directly from the customer's cart.
+- Customers can view all their orders or a specific order by ID.
+- Orders are validated to ensure the cart is not empty before creation.
+
+### 3. **Author-Book Relationship**
+- Authors are now linked to their books, and users can fetch books by a specific author.
+
+### 4. **Enhanced Error Handling**
+- Added `OrderNotFoundException` for better error reporting in order-related operations.
+- Improved error messages for invalid input scenarios.
+
+---
+
 ## Project Structure
-```src/ 
-└── com/ 
-  └── raqeeb/ 
-    └── bookstore/ 
-      └── bookstoreapi/ 
-        ├── model/  
-        │ ├── Book.java 
-        │ ├── Author.java 
-        │ ├── Customer.java 
-        │ ├── Cart.java 
-        │ └── Order.java 
-        ├── repository/ 
-        │ ├── BookRepository.java 
-        │ ├── AuthorRepository.java 
-        │ ├── CustomerRepository.java 
-        │ ├── CartRepository.java 
-        │ └── OrderRepository.java 
-        ├── service/ 
-        │ ├── BookService.java 
-        │ ├── AuthorService.java 
-        │ ├── CustomerService.java 
-        │ ├── CartService.java 
-        │ └── OrderService.java 
-        ├── exception/ 
-        │ ├── BookNotFoundException.java 
-        │ ├── AuthorNotFoundException.java 
-        │ ├── CustomerNotFoundException.java 
-        │ ├── InvalidInputException.java 
-        │ ├── OutOfStockException.java 
-        │ └── CartNotFoundException.java 
-        └── resources/ 
+```
+src/
+└── com/
+  └── raqeeb/
+    └── bookstore/
+      └── bookstoreapi/
+        ├── model/
+        │ ├── Book.java
+        │ ├── Author.java
+        │ ├── Customer.java
+        │ ├── Cart.java
+        │ └── Order.java
+        ├── repository/
+        │ ├── BookRepository.java
+        │ ├── AuthorRepository.java
+        │ ├── CustomerRepository.java
+        │ ├── CartRepository.java
+        │ └── OrderRepository.java
+        ├── service/
+        │ ├── BookService.java
+        │ ├── AuthorService.java
+        │ ├── CustomerService.java
+        │ ├── CartService.java
+        │ └── OrderService.java
+        ├── exception/
+        │ ├── BookNotFoundException.java
+        │ ├── AuthorNotFoundException.java
+        │ ├── CustomerNotFoundException.java
+        │ ├── InvalidInputException.java
+        │ ├── OutOfStockException.java
+        │ └── CartNotFoundException.java
+        ├── utils/
+        │ ├── DataInitializationService.java
+        │ ├── ErrorMessage.java
+        │ ├── SuccessMessage.java
+        └── resources/
         └── application.properties
+        └── BookStoreAPI
+        └── BookStoreAPIConfig
 ```
 
 ---
